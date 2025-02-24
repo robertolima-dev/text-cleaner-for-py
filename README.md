@@ -1,6 +1,6 @@
-# 📚 **text-cleaner**
+# 📚 **/text-cleaner-for-py**
 
-🧹 **text-cleaner** é um pacote Python leve e eficiente para **limpeza** e **normalização de texto**. Ele oferece recursos para remoção de HTML, acentos, caracteres especiais, além de conversões para formatos como `snake_case`, `camelCase` e `PascalCase`.
+🧹 **/text-cleaner-for-py** é um pacote Python leve e eficiente para **limpeza** e **normalização de texto**. Ele oferece recursos para remoção de HTML, acentos, caracteres especiais, além de conversões para formatos como `snake_case`, `camelCase` e `PascalCase`.
 
 ---
 
@@ -22,7 +22,7 @@
 Instale o pacote diretamente do PyPI:
 
 ```bash
-pip install text-cleaner
+pip install /text-cleaner-for-py
 ```
 
 ---
@@ -34,7 +34,7 @@ pip install text-cleaner
 ```python
 from text_cleaner.cleaner import clean_text
 
-texto = "<h1>Olá, Mundo!</h1>   Bem-vindo ao text-cleaner! 🧹✨"
+texto = "<h1>Olá, Mundo!</h1>   Bem-vindo ao /text-cleaner-for-py! 🧹✨"
 texto_limpo = clean_text(texto, case="snake")
 
 print(texto_limpo)  # Saída: ola_mundo_bemvindo_ao_text_cleaner
