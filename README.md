@@ -22,7 +22,7 @@
 Instale o pacote diretamente do PyPI:
 
 ```bash
-pip install /text-cleaner-for-py
+pip install text_cleaner_for_py
 ```
 
 ---

@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="text-cleaner-for-py",
-    version="0.1.1",
+    name="text_cleaner_for_py",
+    version="0.1.2",
     packages=find_packages(),
     install_requires=[
         "beautifulsoup4>=4.12.0",
