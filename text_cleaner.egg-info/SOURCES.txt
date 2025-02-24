@@ -1,0 +1,14 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+tests/test_cleaner.py
+text_cleaner/__init__.py
+text_cleaner/cleaner.py
+text_cleaner.egg-info/PKG-INFO
+text_cleaner.egg-info/SOURCES.txt
+text_cleaner.egg-info/dependency_links.txt
+text_cleaner.egg-info/requires.txt
+text_cleaner.egg-info/top_level.txt
