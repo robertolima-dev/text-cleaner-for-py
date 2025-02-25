@@ -2,7 +2,7 @@
 import sys
 import os
 import pytest
-from text_cleaner.cleaner import (
+from text_cleaner_for_py.cleaner import (
     remove_accents,
     remove_special_characters,
     to_snake_case,

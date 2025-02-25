@@ -1,4 +1,3 @@
-# text_cleaner/cleaner.py
 import re
 import unicodedata
 from bs4 import BeautifulSoup
