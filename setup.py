@@ -1,12 +1,13 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name="text_cleaner_for_py",
-    version="1.1.2",
+    version="1.1.4",
     packages=find_packages(),
     install_requires=[
         "beautifulsoup4>=4.12.0",
-        "requests>=2.31.0"
+        "requests>=2.31.0",
+        "nltk",
     ],
     author="Roberto Lima",
     author_email="robertolima.izphera@gmail.com",
@@ -23,5 +24,5 @@ setup(
     ],
     python_requires=">=3.6",
     include_package_data=True,
-    license="MIT", 
+    license="MIT",
 )

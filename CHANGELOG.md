@@ -1,6 +1,14 @@
 # 📜 Changelog
 
 
+## [1.1.4] - 2025-03-19
+### Adicionado
+- Instalação de pacotes
+
+## [1.1.3] - 2025-03-19
+### Adicionado
+- Ajustes no install_requires
+
 ## [1.1.2] - 2025-02-25
 ### Adicionado
 - Novas funções de normalização

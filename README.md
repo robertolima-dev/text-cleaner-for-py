@@ -33,7 +33,7 @@ pip install text_cleaner_for_py
 
 ### 🔡 **Normalização de texto:**
 ```python
-from text_cleaner.cleaner_v1 import normalize_text
+from text_cleaner_for_py.cleaner_v1 import normalize_text
 
 texto = "<p>Olá, Mundo!</p> Bem-vindo ao /text-cleaner-for-py! 🧹✨"
 texto_normalizado = normalize_text(texto)
@@ -43,7 +43,7 @@ print(texto_normalizado)  # Saída: ola mundo bem vindo ao text cleaner for py
 
 ### 🌐 **Removendo HTML:**
 ```python
-from text_cleaner.cleaner_v1 import remove_html_tags
+from text_cleaner_for_py.cleaner_v1 import remove_html_tags
 
 html_text = "<div><p>Texto <b>importante</b></p></div>"
 print(remove_html_tags(html_text))  # Saída: Texto importante
@@ -51,7 +51,7 @@ print(remove_html_tags(html_text))  # Saída: Texto importante
 
 ### 🧹 **Reduzindo espaços:**
 ```python
-from text_cleaner.cleaner_v1 import clean_whitespace
+from text_cleaner_for_py.cleaner_v1 import clean_whitespace
 
 texto = "Texto   com   espaços    e  \n\n quebras."
 print(clean_whitespace(texto))  # Saída: Texto com espaços e quebras.
@@ -59,7 +59,7 @@ print(clean_whitespace(texto))  # Saída: Texto com espaços e quebras.
 
 ### 🔠 **Filtrando letras e números:**
 ```python
-from text_cleaner.cleaner_v1 import filter_letters, filter_numbers
+from text_cleaner_for_py.cleaner_v1 import filter_letters, filter_numbers
 
 texto = "Telefone: 123-456-789"
 print(filter_letters(texto))  # Saída: Telefone
@@ -68,7 +68,7 @@ print(filter_numbers(texto))  # Saída: 123456789
 
 ### 📝 **Removendo stopwords:**
 ```python
-from text_cleaner.cleaner_v1 import remove_stopwords
+from text_cleaner_for_py.cleaner_v1 import remove_stopwords
 
 texto = "Este é um texto simples para teste de stopwords."
 print(remove_stopwords(texto, language='portuguese'))  # Saída: texto simples teste stopwords.
@@ -94,7 +94,7 @@ pytest -v
 ## 🏗 **Estrutura do Projeto**
 
 ```
-text_cleaner/
+text_cleaner_for_py/
 │
 ├── text_cleaner_for_py/             # 📦 Código do pacote
 │   ├── __init__.py
