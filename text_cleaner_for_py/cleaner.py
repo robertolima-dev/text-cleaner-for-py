@@ -1,6 +1,8 @@
 import re
 import unicodedata
+
 from bs4 import BeautifulSoup
+
 
 # 🔡 Remover acentos e normalizar texto
 def remove_accents(text: str) -> str:
@@ -8,10 +10,12 @@ def remove_accents(text: str) -> str:
     nfkd_form = unicodedata.normalize('NFKD', text)
     return u"".join([c for c in nfkd_form if not unicodedata.combining(c)])
 
+
 # ✂ Remover caracteres especiais
 def remove_special_characters(text: str) -> str:
     """Remove caracteres especiais do texto."""
     return re.sub(r'[^\w\s]', '', text)
+
 
 # 🔄 Converter para snake_case
 def to_snake_case(text: str) -> str:
@@ -20,6 +24,7 @@ def to_snake_case(text: str) -> str:
     text = re.sub(r'\s+', '_', text.strip().lower())
     return re.sub(r'[^a-z0-9_]', '', text)
 
+
 # 🔄 Converter para camelCase
 def to_camel_case(text: str) -> str:
     """Converte texto para camelCase."""
@@ -27,10 +32,12 @@ def to_camel_case(text: str) -> str:
     components = text.split('_')
     return components[0] + ''.join(x.title() for x in components[1:])
 
+
 # 🔄 Converter para PascalCase
 def to_pascal_case(text: str) -> str:
     """Converte texto para PascalCase."""
-    return ''.join(word.capitalize() for word in to_snake_case(text).split('_'))
+    return ''.join(word.capitalize() for word in to_snake_case(text).split('_')) # noqa501
+
 
 # 🌐 Remover HTML
 def remove_html(text: str) -> str:
@@ -38,10 +45,12 @@ def remove_html(text: str) -> str:
     soup = BeautifulSoup(text, 'html.parser')
     return soup.get_text(separator=' ', strip=True)
 
+
 # 🔍 Remover múltiplos espaços
 def remove_extra_spaces(text: str) -> str:
     """Remove espaços extras do texto."""
     return re.sub(r'\s+', ' ', text).strip()
+
 
 # 🧹 Limpeza completa do texto
 def clean_text(text: str, case: str = 'lower') -> str:
@@ -71,7 +80,8 @@ def clean_text(text: str, case: str = 'lower') -> str:
     elif case == 'pascal':
         return to_pascal_case(text)
     else:
-        raise ValueError("⚠️ Formato de case inválido. Use: lower, upper, title, snake, camel ou pascal.")
+        raise ValueError("⚠️ Formato de case inválido. Use: lower, upper, title, snake, camel ou pascal.") # noqa501
+
 
 # __init__.py
 __version__ = "0.1.0"

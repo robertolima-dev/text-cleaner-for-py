@@ -2,8 +2,9 @@
 
 import re
 import unicodedata
-from bs4 import BeautifulSoup
+
 import nltk
+from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
 
 # 📥 Garantir que o corpus de stopwords está disponível
@@ -14,10 +15,10 @@ except LookupError:
 
 
 def normalize_text(text: str) -> str:
-    """🔡 Converte texto para minúsculas e remove acentos e caracteres especiais (após remover HTML)."""
+    """🔡 Converte texto para minúsculas e remove acentos e caracteres especiais (após remover HTML).""" # noqa501
     text = remove_html_tags(text)
     text = text.lower()
-    text = unicodedata.normalize('NFKD', text).encode('ASCII', 'ignore').decode('utf-8')
+    text = unicodedata.normalize('NFKD', text).encode('ASCII', 'ignore').decode('utf-8') # noqa501
     text = re.sub(r'[^a-z0-9\s]', '', text)
     return clean_whitespace(text)
 
@@ -53,11 +54,12 @@ def remove_stopwords(text: str, language: str = 'portuguese') -> str:
 
 # 🌟 Exemplo de uso
 if __name__ == "__main__":
-    sample_text = "<p>Olá, mundo! Este é um exemplo de texto com <b>HTML</b> e stopwords.</p>"
+    sample_text = "<p>Olá, mundo! Este é um exemplo de texto com <b>HTML</b> e stopwords.</p>" # noqa501
     print("Original:", sample_text)
     print("Normalizado:", normalize_text(sample_text))
     print("Sem HTML:", remove_html_tags(sample_text))
     print("Espaços limpos:", clean_whitespace(sample_text))
     print("Somente letras:", filter_letters(sample_text))
     print("Somente números:", filter_numbers("Telefone: 123-456-789"))
-    print("Sem stopwords:", remove_stopwords(sample_text, language='portuguese'))
+    print("Sem stopwords:", remove_stopwords(sample_text, language='portuguese')) # noqa501
+    print("Sem stopwords:", remove_stopwords(sample_text, language='portuguese')) # noqa501
