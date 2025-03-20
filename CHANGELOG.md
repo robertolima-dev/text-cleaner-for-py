@@ -1,5 +1,8 @@
 # 📜 Changelog
 
+## [1.1.6] - 2025-03-20
+### Adicionado
+- Ajuste na documentação
 
 ## [1.1.5] - 2025-03-19
 ### Adicionado
