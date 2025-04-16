@@ -14,6 +14,15 @@
 - 🔍 **Filtros de text:**
   - Manutenção de letras e números.
   - Remoção de stopwords com suporte a múltiplos idiomas.
+- 🚀 **Funcionalidades Avançadas:**
+  - Detecção automática de idioma
+  - Remoção de emojis e emoticons
+  - Remoção de URLs e emails
+  - Normalização de números, datas e valores monetários
+  - Correção de erros comuns de digitação
+  - Remoção de texto duplicado
+  - Normalização de abreviações
+  - Stemming e lematização
 
 ---
 
@@ -25,66 +34,40 @@ Instale o pacote diretamente do PyPI:
 pip install text_cleaner_for_py
 ```
 
-> O pacote depende de `nltk`, `beautifulsoup4` e `nltk stopwords` (com download automático).
+> O pacote depende de `nltk`, `beautifulsoup4`, `emoji` e `langdetect`.
 
 ---
 
 ## 💡 **Como Usar**
 
-### 🧹 **Remover acentos:**
+### 🧹 **Uso Básico:**
 ```python
-from text_cleaner_for_py.cleaner import remove_accents
-
-text = "Olá, você está em São Paulo?"
-print(remove_accents(text))  # Saída: Ola, voce esta em Sao Paulo?
-```
-
-### 🧹 **✂️ Removendo Espaços Extras:**
-```python
-from text_cleaner_for_py.cleaner import remove_extra_spaces
-
-text = "Texto   com   muitos    espaços   extras."
-print(remove_extra_spaces(text))  # Saída: Texto com muitos espaços extras.
-```
-
-### 🧹 **🔠 Removendo Caracteres Especiais:**
-```python
-from text_cleaner_for_py.cleaner import remove_special_characters
-
-text = "Olá, mundo! Bem-vindo ao Text Cleaner 🧹✨"
-print(remove_special_characters(text))  # Saída: Ola mundo Bemvindo ao Text Cleaner
-```
-
-### 🧹 **🏷 Convertendo para camelCase:**
-```python
-from text_cleaner_for_py.cleaner import to_camel_case
-
-text = "exemplo de conversão de text"
-print(to_camel_case(text))  # Saída: exemploDeConversaoDeTexto
-```
-
-### 🧹 **🏷 Convertendo para PascalCase:**
-```python
-from text_cleaner_for_py.cleaner import to_pascal_case
-
-text = "exemplo de conversão de text"
-print(to_pascal_case(text))  # Saída: ExemploDeConversaoDeTexto
-```
-
-### 🧹 **🏷 Convertendo para snake_case:**
-```python
-from text_cleaner_for_py.cleaner import to_snake_case
-
-text = "exemplo de conversão de text"
-print(to_snake_case(text))  # Saída: exemplo_de_conversao_de_texto
-```
-
-### 🧹 **Limpando o Texto:**
-```python
-from text_cleaner_for_py.cleaner_v1 import clean_text
+from text_cleaner_for_py.cleaner import clean_text
 
 text = "Olá, mundo! Bem-vindo ao Text Cleaner 🧹✨"
 print(clean_text(text))  # Saída: ola mundo bem vindo ao text cleaner
+```
+
+### 🚀 **Uso Avançado:**
+```python
+from text_cleaner_for_py.advanced_cleaner import AdvancedTextCleaner
+
+cleaner = AdvancedTextCleaner()
+
+# Limpeza completa com opções padrão
+text = "Olá! 👋 Visite https://exemplo.com ou envie email para teste@exemplo.com. Data: 25/12/2023. Preço: R$ 1.234,56. vc sabe pq?"
+cleaned = cleaner.clean_advanced(text)
+print(cleaned)
+
+# Limpeza personalizada
+options = {
+    'remove_emojis': True,
+    'remove_urls': False,
+    'normalize_dates': True,
+    'remove_typos': True
+}
+cleaned = cleaner.clean_advanced(text, options)
+print(cleaned)
 ```
 
 ### 🔡 **Normalização de text:**
@@ -130,6 +113,37 @@ text = "Este é um text simples para teste de stopwords."
 print(remove_stopwords(text, language='portuguese'))  # Saída: text simples teste stopwords.
 ```
 
+### 🚀 **Funcionalidades Avançadas:**
+```python
+from text_cleaner_for_py.advanced_cleaner import AdvancedTextCleaner
+
+cleaner = AdvancedTextCleaner()
+
+# Detecção de idioma
+print(cleaner.detect_language("Olá, como vai você?"))  # Saída: pt
+
+# Remoção de emojis
+text = "Olá! 👋 Como vai você? 😊"
+print(cleaner.remove_emojis(text))  # Saída: Olá!  Como vai você? 
+
+# Normalização de números
+text = "1º lugar, 2º lugar, 3º lugar"
+print(cleaner.normalize_numbers(text))  # Saída: primeiro lugar, segundo lugar, terceiro lugar
+
+# Normalização de datas
+text = "Data: 25/12/2023"
+print(cleaner.normalize_dates(text))  # Saída: Data: 25 de dezembro de 2023
+
+# Correção de erros comuns
+text = "vc sabe pq isso aconteceu?"
+print(cleaner.remove_typos(text))  # Saída: você sabe porque isso aconteceu?
+
+# Stemming e lematização
+text = "correndo pulando saltando"
+print(cleaner.stem_text(text))  # Saída: corr pul salt
+print(cleaner.lemmatize_text(text))  # Saída: correr pular saltar
+```
+
 ---
 
 ## 🧪 **Testes**
@@ -154,18 +168,20 @@ text_cleaner_for_py/
 │
 ├── text_cleaner_for_py/             # 📦 Código do pacote
 │   ├── __init__.py
-│   └── cleaner_v1.py  
-│   └── cleaner.py            # ⚡ Funções principais de limpeza e normalização
+│   ├── cleaner_v1.py                # ⚡ Funções básicas de limpeza
+│   ├── cleaner.py                   # ⚡ Funções principais de limpeza
+│   └── advanced_cleaner.py          # 🚀 Funções avançadas de limpeza
 │
-├── tests/                    # 🧪 Testes unitários
-│   └── test_cleaner_v1.py
-│   └── test_cleaner.py
+├── tests/                           # 🧪 Testes unitários
+│   ├── test_cleaner_v1.py
+│   ├── test_cleaner.py
+│   └── test_advanced_cleaner.py
 │
-├── setup.py                  # ⚙️ Configuração do pacote para PyPI
-├── pyproject.toml            # 📦 Configuração moderna
-├── README.md                 # 📚 Documentação do pacote
-├── LICENSE                   # 📜 Licença MIT
-└── MANIFEST.in               # 📋 Inclusão de arquivos extras
+├── setup.py                         # ⚙️ Configuração do pacote para PyPI
+├── pyproject.toml                   # 📦 Configuração moderna
+├── README.md                        # 📚 Documentação do pacote
+├── LICENSE                          # 📜 Licença MIT
+└── MANIFEST.in                      # 📋 Inclusão de arquivos extras
 ```
 
 ---

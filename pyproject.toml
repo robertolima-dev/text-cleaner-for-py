@@ -1,3 +1,27 @@
 [build-system]
 requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "text_cleaner_for_py"
+version = "1.1.7"
+description = "A Python package for text cleaning and normalization"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "nltk>=3.8.1",
+    "beautifulsoup4>=4.12.2",
+    "emoji>=2.8.0",
+    "langdetect>=1.0.9"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/robertolima-dev/text-cleaner-for-py"
+Repository = "https://github.com/robertolima-dev/text-cleaner-for-py"
+Issues = "https://github.com/robertolima-dev/text-cleaner-for-py/issues"

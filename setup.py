@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="text_cleaner_for_py",
-    version="1.1.6",
+    version="1.1.7",
     packages=find_packages(),
     install_requires=[
         "beautifulsoup4>=4.12.0",
@@ -25,4 +25,9 @@ setup(
     python_requires=">=3.6",
     include_package_data=True,
     license="MIT",
+    project_urls={
+        "Homepage": "https://github.com/robertolima-dev/text-cleaner-for-py", # noqa501
+        "Repository": "https://github.com/robertolima-dev/text-cleaner-for-py", # noqa501
+        "Issues": "https://github.com/robertolima-dev/text-cleaner-for-py/issues", # noqa501
+    },
 )
