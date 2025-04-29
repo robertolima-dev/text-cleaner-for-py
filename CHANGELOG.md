@@ -1,5 +1,11 @@
 # 📜 Changelog
 
+
+## [1.2.0] - 2025-04-29
+### Adicionado
+- Processamento paralelo para múltiplos textos usando ProcessPoolExecutor
+- Processamento de Textos Grandes
+
 ## [1.1.7] - 2025-04-17
 ### Adicionado
 - Novas funcionalidades e normalização

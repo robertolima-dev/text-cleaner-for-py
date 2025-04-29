@@ -146,6 +146,101 @@ print(cleaner.lemmatize_text(text))  # Saída: correr pular saltar
 
 ---
 
+## 🚀 **Casos de Uso**
+
+### 📊 **Processamento de Grandes Volumes de Texto**
+
+```python
+from text_cleaner_for_py.performance_cleaner import PerformanceTextCleaner
+
+# Inicializa o limpeza com performance otimizada
+cleaner = PerformanceTextCleaner()
+
+# Processa múltiplos textos em paralelo
+texts = [
+    "Olá, mundo! 🧹✨",
+    "Bem-vindo ao Text Cleaner!",
+    "Teste de performance"
+]
+cleaned_texts = cleaner.clean_texts_parallel(texts)
+print(cleaned_texts)  # ['ola mundo', 'bem vindo ao text cleaner', 'teste de performance']
+
+# Processa um texto grande dividindo em chunks
+large_text = "Olá, mundo! " * 1000
+cleaned_large_text = cleaner.clean_large_text(large_text, chunk_size=1000)
+print(len(cleaned_large_text))  # Tamanho do texto limpo
+```
+
+### 🔄 **Cache para Textos Frequentes**
+
+```python
+from text_cleaner_for_py.performance_cleaner import PerformanceTextCleaner
+
+cleaner = PerformanceTextCleaner()
+
+# O mesmo texto será processado apenas uma vez
+text = "Olá, mundo! 🧹✨"
+result1 = cleaner.clean_text_cached(text)  # Processa o texto
+result2 = cleaner.clean_text_cached(text)  # Usa o cache
+assert result1 == result2  # True
+```
+
+### ⚙️ **Limpeza com Opções Específicas**
+
+```python
+from text_cleaner_for_py.performance_cleaner import PerformanceTextCleaner
+
+cleaner = PerformanceTextCleaner()
+
+# Limpeza com opções específicas
+text = "Olá! 👋 Visite https://exemplo.com"
+options = {
+    'remove_emojis': True,
+    'remove_urls': True
+}
+cleaned_text = cleaner.clean_text_with_options(text, options)
+print(cleaned_text)  # 'ola visite'
+```
+
+### 📈 **Benchmark de Performance**
+
+```python
+import time
+from text_cleaner_for_py.performance_cleaner import PerformanceTextCleaner
+
+cleaner = PerformanceTextCleaner()
+
+# Teste de performance com texto grande
+large_text = "Olá, mundo! " * 10000
+
+# Tempo sem processamento paralelo
+start_time = time.time()
+result1 = cleaner.clean_text_cached(large_text)
+end_time = time.time()
+print(f"Tempo sem paralelismo: {end_time - start_time:.2f} segundos")
+
+# Tempo com processamento paralelo
+start_time = time.time()
+result2 = cleaner.clean_large_text(large_text)
+end_time = time.time()
+print(f"Tempo com paralelismo: {end_time - start_time:.2f} segundos")
+```
+
+### 🔧 **Configuração Avançada**
+
+```python
+from text_cleaner_for_py.performance_cleaner import PerformanceTextCleaner
+
+# Configura o número de workers para processamento paralelo
+cleaner = PerformanceTextCleaner(max_workers=4)
+
+# Processa textos com configuração personalizada
+texts = ["Texto 1", "Texto 2", "Texto 3"]
+cleaned_texts = cleaner.clean_texts_parallel(texts)
+```
+
+---
+
 ## 🧪 **Testes**
 
 Execute os testes com `pytest`:
