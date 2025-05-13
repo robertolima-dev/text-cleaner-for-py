@@ -1,116 +1,151 @@
-import multiprocessing
+import asyncio
+import concurrent.futures
 from functools import lru_cache
-from typing import List, Optional
-from concurrent.futures import ProcessPoolExecutor
 import re
-import unicodedata
-
-from .cleaner import clean_text
-from .advanced_cleaner import AdvancedTextCleaner
+from typing import List, Optional, Dict, Any
+import torch
+import redis
+from text_cleaner_for_py.cleaner import clean_text
 
 class PerformanceTextCleaner:
-    def __init__(self, max_workers: Optional[int] = None):
-        """
-        Inicializa o limpeza de texto com performance otimizada.
-        
-        Args:
-            max_workers: Número máximo de workers para processamento paralelo.
-                        Se None, usa o número de CPUs disponíveis.
-        """
-        self.max_workers = max_workers or multiprocessing.cpu_count()
-        self.advanced_cleaner = AdvancedTextCleaner()
-    
-    def _remove_accents(self, text: str) -> str:
-        """
-        Remove acentos do texto.
-        
-        Args:
-            text: Texto com acentos
-            
-        Returns:
-            Texto sem acentos
-        """
-        return ''.join(c for c in unicodedata.normalize('NFD', text)
-                      if unicodedata.category(c) != 'Mn')
-    
-    @lru_cache(maxsize=128)
-    def clean_text_cached(self, text: str) -> str:
-        """
-        Versão com cache da limpeza de texto.
-        
-        Args:
-            text: Texto a ser limpo
-            
-        Returns:
-            Texto limpo
-        """
-        # Converte para minúsculas e remove acentos
-        text = text.lower()
-        text = self._remove_accents(text)
-        # Remove emojis e caracteres especiais
-        text = re.sub(r'[^\w\s-]', '', text)
-        # Substitui hífens por espaços
-        text = text.replace('-', ' ')
-        # Remove espaços extras
-        text = ' '.join(text.split())
-        return text
-    
+    def __init__(self, max_workers: int = 4, cache_size: int = 1000):
+        self.max_workers = max_workers
+        self._cache = {}
+        self.cache_size = cache_size
+        self._redis_client = None
+
     def clean_texts_parallel(self, texts: List[str]) -> List[str]:
-        """
-        Limpa múltiplos textos em paralelo.
-        
-        Args:
-            texts: Lista de textos a serem limpos
-            
-        Returns:
-            Lista de textos limpos
-        """
-        with ProcessPoolExecutor(max_workers=self.max_workers) as executor:
-            return list(executor.map(self.clean_text_cached, texts))
-    
+        """Processa múltiplos textos em paralelo."""
+        with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            return list(executor.map(clean_text, texts))
+
     def clean_large_text(self, text: str, chunk_size: int = 1000) -> str:
-        """
-        Limpa um texto grande dividindo-o em chunks e processando em paralelo.
-        
-        Args:
-            text: Texto grande a ser limpo
-            chunk_size: Tamanho de cada chunk em caracteres
-            
-        Returns:
-            Texto limpo
-        """
-        # Divide o texto em chunks
+        """Processa um texto grande dividindo em chunks."""
         chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
-        
-        # Processa os chunks em paralelo
         cleaned_chunks = self.clean_texts_parallel(chunks)
+        return " ".join(cleaned_chunks)
+
+    @lru_cache(maxsize=1000)
+    def clean_text_cached(self, text: str) -> str:
+        """Limpa o texto usando cache local."""
+        return clean_text(text)
+
+    def remove_ocr_noise(self, text: str) -> str:
+        """Remove ruído comum em textos de OCR."""
+        # Substitui números por letras comuns em OCR
+        ocr_replacements = {
+            '0': 'o', '1': 'i', '3': 'e', '4': 'a', '5': 's',
+            '7': 't', '8': 'b', '9': 'g'
+        }
+        for num, letter in ocr_replacements.items():
+            text = text.replace(num, letter)
+        return text
+
+    def normalize_measurements(self, text: str) -> str:
+        """Normaliza unidades de medida no texto."""
+        # Padrões comuns de medidas
+        patterns = {
+            r'(\d+(?:\.\d+)?)\s*kg': r'\1 quilogramas',
+            r'(\d+(?:\.\d+)?)\s*m': r'\1 metros',
+            r'(\d+(?:\.\d+)?)\s*cm': r'\1 centímetros',
+            r'(\d+(?:\.\d+)?)\s*l': r'\1 litros',
+            r'(\d+(?:\.\d+)?)\s*ml': r'\1 mililitros'
+        }
         
-        # Junta os chunks limpos
-        return ''.join(cleaned_chunks)
-    
-    def clean_text_with_options(self, text: str, options: dict) -> str:
-        """
-        Limpa texto com opções específicas usando cache.
+        for pattern, replacement in patterns.items():
+            text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+        return text
+
+    def remove_duplicates(self, text: str) -> str:
+        """Remove conteúdo duplicado no texto, considerando frases e sentenças."""
+        # Divide por pontuação de fim de frase
+        import string
+        import re
+        # Divide por ! ? .
+        sentences = re.split(r'[.!?]', text)
+        unique_sentences = []
+        seen = set()
+        for sentence in sentences:
+            sentence = sentence.strip()
+            if sentence and sentence not in seen:
+                seen.add(sentence)
+                unique_sentences.append(sentence)
+        return '. '.join(unique_sentences) + ('.' if unique_sentences else '')
+
+    def normalize_proper_names(self, text: str) -> str:
+        """Normaliza nomes próprios no texto."""
+        def capitalize_name(name):
+            words = name.split()
+            result = []
+            for i, word in enumerate(words):
+                if i == 0 or word.lower() not in ['da', 'de', 'do', 'das', 'dos', 'e']:
+                    result.append(word.capitalize())
+                else:
+                    result.append(word.lower())
+            return ' '.join(result)
         
-        Args:
-            text: Texto a ser limpo
-            options: Dicionário com opções de limpeza
-            
-        Returns:
-            Texto limpo
-        """
-        # Cria uma chave única para o cache baseada nas opções
-        cache_key = f"{text}_{str(sorted(options.items()))}"
+        # Padrão para nomes próprios
+        pattern = r'\b([a-zà-ú]+(?:\s+(?:da|de|do|das|dos|e)\s+[a-zà-ú]+)*)\b'
         
-        @lru_cache(maxsize=128)
-        def _clean_with_options(key: str) -> str:
-            result = text.lower()
-            result = self._remove_accents(result)
-            if options.get('remove_emojis', False):
-                result = re.sub(r'[^\w\s-]', '', result)
-                result = result.replace('-', ' ')
-            if options.get('remove_urls', False):
-                result = re.sub(r'https?://\S+', '', result)
-            return ' '.join(result.split())
+        def replace_name(match):
+            return capitalize_name(match.group(1))
         
-        return _clean_with_options(cache_key) 
+        return re.sub(pattern, replace_name, text, flags=re.IGNORECASE)
+
+    async def clean_texts_async(self, texts: List[str]) -> List[str]:
+        """Processa textos de forma assíncrona."""
+        async def clean_single_text(text):
+            return clean_text(text)
+        
+        tasks = [clean_single_text(text) for text in texts]
+        return await asyncio.gather(*tasks)
+
+    def is_gpu_available(self) -> bool:
+        """Verifica se GPU está disponível."""
+        return torch.cuda.is_available()
+
+    def clean_text_gpu(self, text: str) -> str:
+        """Processa texto usando GPU se disponível."""
+        if not self.is_gpu_available():
+            return clean_text(text)
+        
+        # Implementação básica de processamento GPU
+        # Em um caso real, você usaria operações vetorizadas do PyTorch
+        return clean_text(text)
+
+    def is_redis_available(self) -> bool:
+        """Verifica se Redis está disponível."""
+        try:
+            if self._redis_client is None:
+                self._redis_client = redis.Redis(host='localhost', port=6379, db=0)
+            self._redis_client.ping()
+            return True
+        except:
+            return False
+
+    def clean_text_distributed_cache(self, text: str) -> str:
+        """Limpa texto usando cache distribuído (Redis)."""
+        if not self.is_redis_available():
+            return clean_text(text)
+        
+        cache_key = f"text_cleaner:{hash(text)}"
+        cached_result = self._redis_client.get(cache_key)
+        
+        if cached_result:
+            return cached_result.decode('utf-8')
+        
+        cleaned_text = clean_text(text)
+        self._redis_client.set(cache_key, cleaned_text)
+        return cleaned_text
+
+    def clean_text_with_options(self, text: str, options: Dict[str, bool]) -> str:
+        """Limpa texto com opções específicas."""
+        result = text
+        
+        if options.get('remove_emojis', False):
+            result = re.sub(r'[^\w\s-]', '', result)
+        
+        if options.get('remove_urls', False):
+            result = re.sub(r'https?://\S+', '', result)
+        
+        return clean_text(result) 

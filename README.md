@@ -239,6 +239,67 @@ texts = ["Texto 1", "Texto 2", "Texto 3"]
 cleaned_texts = cleaner.clean_texts_parallel(texts)
 ```
 
+## 🚀 Casos de Uso Avançados e Performance
+
+### 🧵 Processamento Paralelo de Textos
+```python
+from text_cleaner_for_py.performance_cleaner import PerformanceTextCleaner
+cleaner = PerformanceTextCleaner()
+texts = [
+    "Olá, mundo! 🧹✨",
+    "Bem-vindo ao Text Cleaner!",
+    "Teste de performance"
+]
+cleaned = cleaner.clean_texts_parallel(texts)
+print(cleaned)
+```
+
+### 🧩 Processamento de Texto Grande em Chunks
+```python
+large_text = "Olá, mundo! " * 1000
+cleaned_large = cleaner.clean_large_text(large_text, chunk_size=1000)
+print(len(cleaned_large))
+```
+
+### 🧠 Cache Local de Limpeza
+```python
+text = "Olá, mundo! 🧹✨"
+result1 = cleaner.clean_text_cached(text)
+result2 = cleaner.clean_text_cached(text)
+assert result1 == result2
+```
+
+### 🧬 Remoção de Ruído de OCR
+```python
+text = "H3ll0 W0rld! Th1s 1s 4 t3st."
+print(cleaner.remove_ocr_noise(text))  # Saída: Hello World! This is a test.
+```
+
+### ⚖️ Normalização de Unidades de Medida
+```python
+text = "O produto pesa 1.5kg e mede 2.5m"
+print(cleaner.normalize_measurements(text))  # Saída: O produto pesa 1.5 quilogramas e mede 2.5 metros
+```
+
+### 🔁 Remoção de Conteúdo Duplicado
+```python
+text = "Olá mundo! Olá mundo! Como vai você?"
+print(cleaner.remove_duplicates(text))  # Saída: Olá mundo! Como vai você?
+```
+
+### 🏷️ Normalização de Nomes Próprios
+```python
+text = "joão da silva e maria santos"
+print(cleaner.normalize_proper_names(text))  # Saída: João da Silva e Maria Santos
+```
+
+### ⚙️ Limpeza com Opções Específicas
+```python
+text = "Olá! 👋 Visite https://exemplo.com"
+options = {'remove_emojis': True, 'remove_urls': True}
+print(cleaner.clean_text_with_options(text, options))  # Saída: ola visite
+```
+
 ---
 
 ## 🧪 **Testes**

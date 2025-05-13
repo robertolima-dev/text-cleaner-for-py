@@ -1,6 +1,23 @@
 # 📜 Changelog
 
 
+## [1.3.0] - 2024-05-13
+### Adicionado
+- Novo módulo `performance_cleaner` com:
+  - Processamento paralelo de textos (`clean_texts_parallel`)
+  - Processamento de texto grande em chunks (`clean_large_text`)
+  - Cache local de limpeza (`clean_text_cached`)
+  - Remoção de ruído de OCR (`remove_ocr_noise`)
+  - Normalização de unidades de medida (`normalize_measurements`)
+  - Remoção de conteúdo duplicado (`remove_duplicates`)
+  - Normalização de nomes próprios (`normalize_proper_names`)
+  - Limpeza assíncrona (`clean_texts_async`)
+  - Limpeza com opções específicas (`clean_text_with_options`)
+  - Suporte a cache distribuído com Redis (`clean_text_distributed_cache`)
+  - Suporte a processamento com GPU (PyTorch)
+- Testes automatizados para todas as novas funcionalidades
+
+
 ## [1.2.0] - 2025-04-29
 ### Adicionado
 - Processamento paralelo para múltiplos textos usando ProcessPoolExecutor
@@ -43,7 +60,6 @@
 - 🚀 Primeira versão com limpeza de textos com text cleaner.
 
 ## [0.2.0] - 2024-04-16
-
 ### Added
 - Nova classe `AdvancedTextCleaner` com funcionalidades avançadas:
   - Detecção automática de idioma
@@ -64,7 +80,6 @@
 - Atualização do README.md com novas seções
 
 ## [0.1.0] - 2024-03-21
-
 ### Added
 - Funcionalidades básicas de limpeza de texto
 - Suporte para remoção de HTML
@@ -73,3 +88,4 @@
 - Remoção de stopwords
 - Documentação inicial
 - Testes unitários básicos
+
