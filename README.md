@@ -300,6 +300,53 @@ options = {'remove_emojis': True, 'remove_urls': True}
 print(cleaner.clean_text_with_options(text, options))  # Saída: ola visite
 ```
 
+### Correção Ortográfica
+```python
+from text_cleaner_for_py.spell_checker import SpellCheckerCleaner
+
+spell_checker = SpellCheckerCleaner(language='pt')
+texto = "Olá mundu! Como vai vc?"
+
+# Verificar erros ortográficos
+erros = spell_checker.check_text(texto)
+print(erros)  # {'mundu': [...], 'vc': ['você']}
+
+# Corrigir texto automaticamente
+corrigido = spell_checker.correct_text(texto)
+print(corrigido)  # Olá mundo! Como vai você?
+
+# Sugestões para uma palavra
+sugestoes = spell_checker.get_suggestions('mundu')
+print(sugestoes)  # ['mundo', ...]
+```
+
+### Processamento de Documentos
+```python
+from text_cleaner_for_py.document_processor import DocumentProcessor
+
+processor = DocumentProcessor()
+
+# Ler um arquivo TXT
+conteudo = processor.read_document('exemplo.txt')
+print(conteudo)
+
+# Ler um arquivo PDF
+# conteudo_pdf = processor.read_document('exemplo.pdf')
+# print(conteudo_pdf)
+
+# Ler um arquivo DOCX
+# conteudo_docx = processor.read_document('exemplo.docx')
+# print(conteudo_docx)
+
+# Extrair metadados
+metadados = processor.extract_metadata('exemplo.txt')
+print(metadados)
+
+# Extrair tabelas de um DOCX
+# tabelas = processor.extract_tables('exemplo.docx')
+# print(tabelas)
+```
+
 ---
 
 ## 🧪 **Testes**

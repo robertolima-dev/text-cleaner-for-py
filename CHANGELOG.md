@@ -1,6 +1,20 @@
 # 📜 Changelog
 
 
+## [1.4.0] - 2024-05-29
+### Adicionado
+- Novo módulo de correção ortográfica (`spell_checker.py`) com:
+  - Detecção de erros ortográficos
+  - Correção automática de texto
+  - Sugestões de correção
+  - Suporte a abreviações comuns do português (ex: 'vc' → 'você')
+- Novo módulo de processamento de documentos (`document_processor.py`) com:
+  - Leitura de arquivos `.txt`, `.pdf` e `.docx`
+  - Extração de metadados de documentos
+  - Extração de tabelas de arquivos `.docx`
+  - Estrutura pronta para extração de imagens
+- Testes automatizados para ambos os módulos
+
 ## [1.3.0] - 2024-05-13
 ### Adicionado
 - Novo módulo `performance_cleaner` com:

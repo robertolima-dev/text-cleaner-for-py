@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "text_cleaner_for_py"
-version = "1.3.0"
+version = "1.4.0"
 description = "A Python package for text cleaning and normalization"
 readme = "README.md"
 requires-python = ">=3.8"
