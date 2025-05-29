@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="text_cleaner_for_py",
-    version="1.4.0",
+    version="1.4.1",
     packages=find_packages(),
     install_requires=[
         "pyspellchecker>=0.7.2",
@@ -31,7 +31,7 @@ setup(
     ],
     author="Roberto Lima",
     author_email="robertolima@example.com",
-    description="Uma biblioteca Python para limpeza e processamento de texto",
+    description="​💬​ Uma biblioteca Python para limpeza e processamento de texto",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/seu-usuario/text_cleaner",
