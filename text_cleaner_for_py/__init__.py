@@ -9,6 +9,21 @@ from text_cleaner_for_py.cleaner import (
     clean_text,
 )
 
+from text_cleaner_for_py.exceptions import (
+    TextCleanerError,
+    ValidationError,
+    ConfigurationError,
+    ProcessingError,
+    UnsupportedFormatError,
+    LanguageNotSupportedError,
+    FileProcessingError,
+    CacheError,
+    PerformanceError,
+)
+
+from text_cleaner_for_py.config import config, ConfigManager, CleanerConfig, RedisConfig, LoggingConfig
+from text_cleaner_for_py.logging_config import logger, get_logger, TextCleanerLogger
+
 from text_cleaner_for_py.cleaner_v1 import (
     normalize_text,
     remove_html_tags,
@@ -20,7 +35,7 @@ from text_cleaner_for_py.cleaner_v1 import (
 
 from text_cleaner_for_py.advanced_cleaner import AdvancedTextCleaner
 
-__version__ = "0.2.0"
+__version__ = "1.5.0"
 
 __all__ = [
     # Funções básicas
@@ -43,4 +58,25 @@ __all__ = [
     
     # Classes avançadas
     "AdvancedTextCleaner",
+    
+    # Exceções
+    "TextCleanerError",
+    "ValidationError",
+    "ConfigurationError",
+    "ProcessingError",
+    "UnsupportedFormatError",
+    "LanguageNotSupportedError",
+    "FileProcessingError",
+    "CacheError",
+    "PerformanceError",
+    
+    # Configuração e Logging
+    "config",
+    "ConfigManager",
+    "CleanerConfig",
+    "RedisConfig",
+    "LoggingConfig",
+    "logger",
+    "get_logger",
+    "TextCleanerLogger",
 ]

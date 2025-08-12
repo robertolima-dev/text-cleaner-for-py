@@ -1,6 +1,45 @@
 # 📜 Changelog
 
 
+## [1.5.0] - 2024-12-19
+### Adicionado
+- Sistema de exceções customizadas (`exceptions.py`) com:
+  - `TextCleanerError`: Exceção base para todos os erros
+  - `ValidationError`: Para erros de validação de entrada
+  - `ConfigurationError`: Para erros de configuração
+  - `ProcessingError`: Para erros durante processamento
+  - `UnsupportedFormatError`: Para formatos não suportados
+  - `LanguageNotSupportedError`: Para idiomas não suportados
+  - `FileProcessingError`: Para erros de processamento de arquivos
+  - `CacheError`: Para erros relacionados ao cache
+  - `PerformanceError`: Para erros de performance
+- Sistema de configuração centralizado (`config.py`) com:
+  - `CleanerConfig`: Configurações para processamento de texto
+  - `RedisConfig`: Configurações para conexão com Redis
+  - `LoggingConfig`: Configurações para logging
+  - `ConfigManager`: Gerenciador centralizado de configurações
+  - Suporte a variáveis de ambiente para configuração
+- Type hints completos em todas as funções principais
+- Validação robusta de entrada em todas as funções
+- Documentação de docstrings seguindo padrão Google
+- Configurações modernas no `pyproject.toml` com:
+  - Configurações para pytest, black, isort, mypy e coverage
+  - Dependências de desenvolvimento organizadas
+  - Configurações de build otimizadas
+
+### Changed
+- Versão atualizada para 1.5.0 em todos os arquivos
+- Migração completa para `pyproject.toml` como configuração principal
+- Tratamento de erros melhorado com exceções customizadas
+- Validação de entrada mais robusta e informativa
+- Documentação de funções padronizada e completa
+
+### Fixed
+- Inconsistências de versão entre arquivos
+- Configuração duplicada entre `setup.py` e `pyproject.toml`
+- Falta de type hints em funções principais
+- Tratamento básico de erros
+
 ## [1.4.0] - 2024-05-29
 ### Adicionado
 - Novo módulo de correção ortográfica (`spell_checker.py`) com:

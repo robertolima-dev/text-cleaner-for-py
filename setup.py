@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="text_cleaner_for_py",
-    version="1.4.1",
+    version="1.5.0",
     packages=find_packages(),
     install_requires=[
         "pyspellchecker>=0.7.2",

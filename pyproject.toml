@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "text_cleaner_for_py"
-version = "1.4.1"
+version = "1.5.0"
 description = "​💬​ Uma biblioteca Python para limpeza e processamento de texto"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -16,17 +16,33 @@ dependencies = [
     "langdetect>=1.0.9",
     "torch>=2.0.0",
     "redis>=4.5.0",
-    "pytest>=7.0.0",
-    "pytest-asyncio>=0.21.0"
+    "pyspellchecker>=0.7.2",
+    "PyPDF2>=3.0.0",
+    "python-docx>=0.8.11",
+    "numpy>=1.24.0"
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0.0",
-    "pytest-asyncio>=0.21.0",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.1",
+    "pytest-cov>=4.1.0",
+    "pytest-benchmark>=4.0.0",
+    "pytest-mock>=3.11.1",
+    "pytest-timeout>=2.1.0",
+    "pytest-xdist>=3.3.1",
+    "pytest-sugar>=0.9.7",
+    "pytest-html>=4.1.1",
+    "pytest-metadata>=3.0.0",
+    "pytest-env>=1.1.1",
+    "pytest-randomly>=3.12.0",
+    "pytest-repeat>=0.9.1",
+    "pytest-rerunfailures>=12.0",
     "black>=23.0.0",
     "isort>=5.12.0",
-    "mypy>=1.0.0"
+    "mypy>=1.0.0",
+    "flake8>=6.0.0",
+    "pre-commit>=3.0.0"
 ]
 
 [project.urls]
@@ -36,3 +52,77 @@ Issues = "https://github.com/robertolima-dev/text-cleaner-for-py/issues"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=text_cleaner_for_py",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml"
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["text_cleaner_for_py"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.coverage.run]
+source = ["text_cleaner_for_py"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/migrations/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]

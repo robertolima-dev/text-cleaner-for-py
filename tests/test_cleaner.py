@@ -70,5 +70,6 @@ def test_clean_text_pascal():
 
 # ⚠️ Teste para formato inválido
 def test_clean_text_invalid_case():
-    with pytest.raises(ValueError, match="⚠️ Formato de case inválido"):
+    from text_cleaner_for_py.exceptions import UnsupportedFormatError
+    with pytest.raises(UnsupportedFormatError, match="Formato 'invalido' não é suportado"):
         clean_text("Texto de teste", case="invalido")
