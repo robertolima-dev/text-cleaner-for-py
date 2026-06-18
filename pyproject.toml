@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "text_cleaner_for_py"
-version = "1.5.0"
+version = "1.5.1"
 description = "​💬​ Uma biblioteca Python para limpeza e processamento de texto"
 readme = "README.md"
 requires-python = ">=3.8"

@@ -1,6 +1,19 @@
 # 📜 Changelog
 
 
+## [1.5.1] - 2026-06-18
+### Corrigido
+- `pyproject.toml` não declarava `authors` nem `classifiers` —
+  `setup.py` tinha os dois, mas com `author_email` falso
+  (`@example.com`) e uma URL de template nunca preenchida. Já estava
+  publicado assim no PyPI v1.5.0.
+
+### Alterado
+- Removido `setup.py` duplicado; `pyproject.toml` passa a ser a única
+  fonte de metadados do pacote.
+- Build via `python -m build` + `twine check`, com CI (`ci.yml`) e
+  release automatizado por tag (`release.yml`) publicando no PyPI.
+
 ## [1.5.0] - 2024-12-19
 ### Adicionado
 - Sistema de exceções customizadas (`exceptions.py`) com:
