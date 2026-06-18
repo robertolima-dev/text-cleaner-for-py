@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependências de build/test
+        run: python -m pip install --upgrade pip build twine
+
+      - name: Instalar o pacote (deps de runtime + dev)
+        run: pip install -e ".[dev]"
+
+      - name: Rodar testes
+        run: pytest
+
+      - name: Checar Requires-Dist vs imports (builda o pacote)
+        run: python scripts/check_wheel_metadata.py
+
+      - name: Validar metadados (twine check)
+        run: twine check dist/*
+
+      - name: Smoke test de instalação limpa
+        run: bash scripts/smoke_install.sh

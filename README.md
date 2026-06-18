@@ -380,8 +380,7 @@ text_cleaner_for_py/
 │   ├── test_cleaner.py
 │   └── test_advanced_cleaner.py
 │
-├── setup.py                         # ⚙️ Configuração do pacote para PyPI
-├── pyproject.toml                   # 📦 Configuração moderna
+├── pyproject.toml                   # ⚙️ Configuração do pacote
 ├── README.md                        # 📚 Documentação do pacote
 ├── LICENSE                          # 📜 Licença MIT
 └── MANIFEST.in                      # 📋 Inclusão de arquivos extras
